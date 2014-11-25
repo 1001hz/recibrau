@@ -1,0 +1,88 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Overview</h1>
+    </div>
+
+</div>
+<div class="row" ng-if="success || warning || error">
+    <div class="col-lg-12">
+        <div class="alert alert-dismissable" ng-class="{'alert-success': success==true, 'alert-warning': warning==true}">
+            <button type="button" class="close" ng-click="closeNotice()">×</button>
+            {{message}}
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <form role="form" novalidate name="form_recipeName" ng-submit="saveRecipe()">
+            <fieldset>
+                <div class="form-group">
+                    <label>Recipe name</label>
+                    <input type="text" class="form-control" required ng-model="currentRecipe.name" name="txt_recipeName" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default" ng-disabled="form_recipeName.txt_recipeName.$error.required">Save Recipe</button>
+                    <span class="text-muted" ng-hide="user.loggedIn">Log in to save recipe.</span>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" ng-show="currentRecipe.grains.length > 0">
+            <!-- Default panel contents -->
+            <div class="panel-heading"><span class="icon-grain icon"></span> Grain</div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th><th>Colour</th><th>Weight</th><th>% of Total</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="grain in currentRecipe.grains">
+                    <td>{{grain.name}}</td> 
+                    <td class="text-muted">{{grain.color}}</td>
+                    <td class="text-muted">{{grain.weight}}{{currentRecipe.settings.unitSystem | unit:'weightLarge'}}</td>
+                    <td class="text-muted">{{grain.percentOfTotal}}</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="panel panel-default" ng-show="currentRecipe.hops.length > 0">
+            <!-- Default panel contents -->
+            <div class="panel-heading"><span class="icon-hops icon"></span> Hops</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Alpha Acid %</th>
+                        <th>Weight</th>
+                        <th>Time</th>
+                        <th>Method</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="hop in currentRecipe.hops">
+                    <td>{{hop.name}}</td>
+                    <td class="text-muted">{{hop.alpha}}</td>
+                    <td class="text-muted">{{hop.weight}}{{currentRecipe.settings.unitSystem | unit:'weightSmall'}}</td>
+                    <td class="text-muted">{{hop.time}} 
+                        <span ng-if="hop.method == 'boil'">mins</span>
+                        <span ng-if="hop.method == 'dry hop'">days</span>
+                    </td>
+                    <td class="text-muted">{{hop.method}}</td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+

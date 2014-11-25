@@ -1,0 +1,73 @@
+﻿
+<div ng-controller="accountCtrl">
+    <div ng-if="!user.loggedIn">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Account
+            </div>
+            <div class="panel-body">
+                <form role="form" id="login" novalidate name="login-form">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="email" name="email" class="form-control" ng-model="user.username" id="email" />
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" ng-model="user.password" id="password" />
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="loginWithPassword()" class="btn btn-default">Login</button>
+                        <input type="checkbox" ng-model="login.keepMeLoggedIn" /><label>Stay logged in</label>
+                    </div>
+                    <div ng-if="showError">
+                        <span ng-model="login.loginError">Aww snap! We had a problem logging you in.</span>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer">
+                <a href="#">Sign up</a>
+            </div>
+        </div>
+        <div class="list-group">
+            <a href="#home/new" class="btn btn-default btn-block">New recipe</a>
+        </div>
+    </div>
+    
+
+        <div ng-if="user.loggedIn">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Account
+                </div>
+                <div class="panel-body">
+                    <i class="fa fa-user fa-fw"></i> {{user.username}}
+
+                </div>
+                <div class="panel-footer">
+                    <a href="" class="btn btn-default" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                </div>
+            </div>
+            
+            <div class="list-group">
+                <a href="#home/new" class="btn btn-default btn-block">New recipe</a>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Recipes <span class="badge">{{recpeList.length}}</span>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="recipe in recpeList">
+                        <a href="#/home/{{recipe.id}}">
+                            {{recipe.name}}
+                            <span class="pull-right text-muted small">{{recipe.updated}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+
+    </div>
+

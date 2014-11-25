@@ -1,0 +1,78 @@
+
+
+/**
+ * Stagger Leave (hide) animation
+ */
+.animate-repeat.ng-leave-stagger {
+    /* this will have a 100ms delay between each successive leave animation */
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+
+    /* in case the stagger doesn't work then these two values
+     must be set to 0 to avoid an accidental CSS inheritance */
+    -webkit-transition-duration: 0s;
+    transition-duration: 0s;
+}
+
+/**
+ * Stagger ENTER ANIMATION
+ */
+.animate-repeat.ng-enter-stagger {
+    /* this will have a 100ms delay between each successive enter animation */
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+
+    /* in case the stagger doesn't work then these two values
+     must be set to 0 to avoid an accidental CSS inheritance */
+    -webkit-transition-duration: 0s;
+    transition-duration: 0s;
+}
+
+.grain-element{
+    border-width: 1px;
+    border-style:solid;
+    box-sizing: border-box;
+    border-radius: 5px;    padding:5px;    border-color:#eee;    margin-bottom:20px;    background-color:#f8f8f8;    cursor:pointer;    min-height:110px;}.grain-element-alt{
+    border-width: 1px;
+    border-style:solid;
+    box-sizing: border-box;
+    border-radius: 5px;    padding:5px;    border-color:#CCC;    margin-bottom:20px;    background-color:#ffffff;    cursor:pointer;    min-height:110px;}._0{background-color:#FFF;color:#333;border-width: 1px;
+    border-style:solid;border-color:#CCC;}._1{background-color:#FFE699;}._2{background-color:#FFD878;}
+            ._3{background-color:#FFCA5A;}
+            ._4{background-color:#FFBF42;}
+            ._5{background-color:#FBB123;}
+            ._6{background-color:#F8A600;}
+            ._7{background-color:#F39C00;}
+            ._8{background-color:#EA8F00;}
+            ._9{background-color:#E58500;}
+            ._10{background-color:#DE7C00;}
+            ._11{background-color:#D77200;}
+            ._12{background-color:#CF6900;}
+            ._13{background-color:#CB6200;}
+            ._14{background-color:#C35900;}
+            ._15{background-color:#BB5100;}
+            ._16{background-color:#B54C00;}
+            ._17{background-color:#B04500;}
+            ._18{background-color:#A63E00;}
+            ._19{background-color:#A13700;}
+            ._20{background-color:#9B3200;}
+            ._21{background-color:#952D00 ;}
+            ._22{background-color:#8E2900 ;}
+            ._23{background-color:#882300 ;}
+            ._24{background-color:#821E00 ;}
+            ._25{background-color:#7B1A00 ;}
+            ._26{background-color:#771900 ;}
+            ._27{background-color:#701400 ;}
+            ._28{background-color:#6A0E00 ;}
+            ._29{background-color:#660D00 ;}
+            ._30{background-color:#5E0B00 ;}
+            ._31{background-color:#5A0A02 ;}
+            ._32{background-color:#600903 ;}
+            ._33{background-color:#520907 ;}
+            ._34{background-color:#4C0505 ;}
+            ._35{background-color:#470606 ;}
+            ._36{background-color:#440607 ;}
+            ._37{background-color:#3F0708 ;}
+            ._38{background-color:#3B0607 ;}
+            ._39{background-color:#3A070B ;}
+            ._40{background-color:#36080A ;}

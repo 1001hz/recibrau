@@ -1,0 +1,120 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Hops</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="table-responsive" ng-if="hopBill.length > 0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="10%">&nbsp;</th>
+                        <th width="35%">Name</th>
+                        <th width="15%">Alpha acid %</th>
+                        <th width="25%">Time in boil</th>
+                        <th width="15%">Weight</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="hop in hopBill" class="animate-repeat">
+                        <td ng-click="removeHop(hop)"><i class="fa fa-minus-circle fa-fw"></i></td>
+                        <td>{{hop.name}}</td>
+                        <td>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" ng-model="hop.alpha" />
+                                    <span class="input-group-addon">%</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" ng-model="hop.time" />
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" tabindex="-1" type="button">
+                                            <span ng-if="hop.method == 'boil'">mins</span>
+                                            <span ng-if="hop.method == 'dry hop'">days</span>
+                                            {{hop.method || "boil"}}</button>
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span></button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <li ng-click="changeHopMethod('boil',hop)"><a>Boil</a></li>
+                                            <li ng-click="changeHopMethod('dry hop',hop)"><a>Dry hop</a></li>
+                                        </ul>
+                                    </div><!-- /btn-group -->
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" ng-model="hop.weight" />
+                                    <span class="input-group-addon">{{systemBill.unitSystem | unit:'weightSmall'}}</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+
+        <p ng-if="hopBill.length == 0" class="text-muted well" align="center">You have nothing added to your hop bill yet. Click a hop below to add it here.</p>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">
+            Add hops
+            <div class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                        Order
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li>
+                            <a href="" ng-click="order('alpha')">Alpha</a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="order('name')">Name</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </h2>
+
+        <div class="col-lg-3 col-md-4 animate-repeat" ng-repeat="hop in hops" ng-hide="isInList(hop)" ng-click="addHop(hop)">
+            <div class="grain-element">
+                <div class="">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="text-muted small"></div>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <div class="text-muted small">{{hop.alpha}}%</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4 align="center"><small>{{hop.name}}</small></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span class="small badge" ng-repeat="usage in hop.usage">{{usage}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

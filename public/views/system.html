@@ -1,0 +1,121 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">System</h1>
+    </div>
+</div>
+
+<div class="row" ng-if="success || warning || error">
+    <div class="col-lg-12">
+        <div class="alert alert-dismissable" ng-class="{'alert-success': success==true, 'alert-warning': warning==true}">
+            <button type="button" class="close" ng-click="closeNotice()">×</button>
+            {{message}}
+        </div>
+    </div>
+</div>
+
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div>
+                <label>Unit System</label>
+                <select class="form-control" ng-model="systemBill.unitSystem" ng-options="unit for unit in unitSystemOptions"></select>
+            </div>
+        </div>
+        
+
+        <div class="col-lg-3">
+            <form role="form">
+                <div class="form-group">
+                    <label>Batch Size</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" required ng-model="systemBill.volume" name="" />
+                        <span class="input-group-addon">{{systemBill.unitSystem | unit:'volume'}}</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>Beer style</label>
+                <select class="form-control" ng-model="systemBill.style" ng-options="style for style in beerStyles"></select>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Method</label>
+                    <select class="form-control" ng-model="systemBill.method" ng-options="method for method in brewMethodOptions"></select>
+                </div>
+        </div>
+
+    </div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <form role="form">
+            <div class="form-group">
+                <label>Original Gravity</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" required ng-model="systemBill.originalGravity" name="" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-3">
+        <form role="form">
+            <div class="form-group">
+                <label>Final Gravity</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" required ng-model="systemBill.finalGravity" name="" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-3">
+        <label>% ABV</label>
+        <div class="input-group">
+            {{percentABV | number : 1}}
+        </div>
+    </div>
+    <div class="col-lg-3">
+
+    </div>
+</div>
+
+
+    <div class="row" ng-show="systemBill.method == 'BIAB' || systemBill.method == 'Partial mash' || systemBill.method == 'All grain'">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <button class="btn btn-primary" ng-click="addMashStep()">Add mash step</button>
+                </div>
+                <div class="panel-body" ng-repeat="mashStep in systemBill.mashSteps">
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="mashStep.temperature" placeholder="Temperature" name="" />
+                                <span class="input-group-addon">&deg;{{systemBill.unitSystem | unit:'temperature'}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Length" ng-model="mashStep.length" name="" />
+                                <span class="input-group-addon">min</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" value="{{getRestName(mashStep.temperature)}}" name="" disabled />
+                        </div>
+                        <button class="btn btn-danger" ng-click="removeMashStep($index)">Remove</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+

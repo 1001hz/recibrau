@@ -1,0 +1,106 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Grains</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-12">
+
+            <div class="table-responsive" ng-if="grainBill.length > 0">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="10%">&nbsp;</th>
+                            <th width="40%">Name</th>
+                            <th width="20%">Extract Pot.</th>
+                            <th width="10%">SRM</th>
+                           
+                            <th width="20%">Weight</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="grain in grainBill" class="animate-repeat">
+                            <td ng-click="removeGrain(grain)"><i class="fa fa-minus-circle fa-fw"></i></td>
+                            <td>{{grain.name}}</td>
+                            <td>{{grain.extractPotential}}%</td>
+                            <td><span class="_{{grain.colour}} badge">{{grain.colour}}</span></td>
+                            
+                            <td>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" ng-model="grain.weight" />
+                                        <span class="input-group-addon"> {{systemBill.unitSystem | unit:'weightLarge'}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.table-responsive -->
+
+            <p ng-if="grainBill.length == 0" class="text-muted well" align="center">You have nothing added to your grain bill yet. Click a grain below to add it here.</p>
+        </div>
+    <!-- /.col-lg-12 -->
+    </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">Add grains
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    Order
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li>
+                                        <a ng-click="order('colour')">Colour</a>
+                                    </li>
+                                    <li>
+                                        <a ng-click="order('name')">Name</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </h2>
+  
+                    <div class="col-lg-3 col-md-4 animate-repeat" ng-repeat="grain in grains" ng-hide="isInList(grain)"  ng-click="addGrain(grain)">
+                        <div class="grain-element">
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="small badge _{{grain.colour}}">{{grain.colour}}</div>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <div class="text-muted small">{{grain.extractPotential}}</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h4 align="center"><small>{{grain.name}}</small></h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="small"></div>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <div class="text-muted small">{{grain.maxYield}}% <!--{{grain.weight | number : fractionSize}} {{commonValues.unitSystem.weightLarge}}--></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                        <div ng-repeat="grain in grains">
+                            {{grain.name}} - {{grain.srm}}
+                            <button ng-if="alreadyInGrainBill(grain.id)" ng-click="addGrain(grain)">Add</button>
+                        </div>
+                -->
+                </div>
+                
+            </div>

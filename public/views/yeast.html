@@ -1,0 +1,94 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Yeast</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+<form role="form">
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Lab</label>
+            <div class="input-group">
+                
+                <input type="text" class="form-control" ng-model="yeastBill.lab">
+                
+            </div><!-- /input-group -->
+        </div>
+
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Name</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="yeastBill.name">
+                    
+                </div><!-- /input-group -->
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Strain</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="yeastBill.strain">
+                    
+                </div><!-- /input-group -->
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div>
+                <label>Temp range low</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="yeastBill.tempLow" name="" />
+                    <span class="input-group-addon">&deg;{{systemBill.unitSystem | unit:'temperature'}}</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3">
+
+            <div class="form-group">
+                <label>Temp range high</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="yeastBill.tempHigh" name="" />
+                    <span class="input-group-addon">&deg;{{systemBill.unitSystem | unit:'temperature'}}</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>Attenuation low</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="yeastBill.attenuationLow" name="" />
+                    <span class="input-group-addon">%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>Attenuation high</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="yeastBill.attenuationHigh" name="" />
+                    <span class="input-group-addon">%</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
