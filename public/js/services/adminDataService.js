@@ -1,65 +1,51 @@
-app.service('dataSrv', function ($http, accountSrv) {
+app.service('adminDataSrv', function ($http, accountSrv) {
 
-    this.getGrains = function (callbackFunc) {
-        /*
-        data = [
-            {
-                id:1,
-                name: "Maris Otter",
-                extractPotential: 80,
-                colour: 20,
-                maxYield: 80
-            },
-            {
-                id: 2,
-                name: "Crystal Malt",
-                colour: 33,
-                extractPotential: 30,
-                maxYield: 60
-            }
-        ];
-        callbackFunc(data);
-        */
+    this.saveGrain = function (grain, callbackFunc) {
         
-        $http.get("/api/grains").success(function (data) {
-            callbackFunc(data);
-        }).error(function (error) {
-            alert(error);
-        });
+        var user = accountSrv.getUser();
+        //if (user.loggedIn) {
+        if (true) {
+            $http.post("/api/add/grain",
+                    { "name": grain.name, "extractPotential": grain.extractPotential, "colour": grain.colour, "maxYield": grain.maxYield }
+                )
+                .success(function (response) {
+                    callbackFunc(response);
+                })
+                .error(function (error) {
+                    callbackFunc({ errors: error });
+                });
+        }
+        else {
+            callbackFunc(false, "User not logged in", 101);
+        }
         
     }
 
 
-    this.getHops = function (callbackFunc) {
-        data = [
-            {
-                id: 1,
-                name: "Warrior",
-                alpha: 8.6,
-                usage: ["bittering"]
-            },
-            {
-                id: 2,
-                name: "East Kent Goldings",
-                alpha: 13.5,
-                usage: ["bittering","aroma"]
-            },
-            {
-                id: 3,
-                name: "Cascade",
-                alpha: 4.5,
-                usage: ["aroma"]
-            }
-        ];
-        callbackFunc(data);
-        /*
-        $http.get("http://localhost/angularjs/brewsmith/data/grains.php").success(function (data) {
-            callbackFunc(data);
-        }).error(function (error) {
-            alert(error);
-        });
-        */
+    this.deleteGrain = function (grainId, callbackFunc) {
+
+        var user = accountSrv.getUser();
+        //if (user.loggedIn) {
+        if (true) {
+            $http.post("/api/remove/grain",
+                    { "id": grainId }
+                )
+                .success(function (response) {
+                    callbackFunc(response);
+                })
+                .error(function (error) {
+                    callbackFunc({ errors: error });
+                });
+        }
+        else {
+            callbackFunc(false, "User not logged in", 101);
+        }
+
     }
+
+
+
+
 
 
     this.getRecipies = function (callbackFunc) {

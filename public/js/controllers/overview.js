@@ -1,12 +1,17 @@
 angular.module("app")
-    .controller("overviewCtrl", function ($scope, $routeParams, recipeListSrv, accountSrv, billSrv)
+    .controller("overviewCtrl", function ($rootScope, $scope, $location, $routeParams, recipeListSrv, accountSrv, billSrv, recipeSavedSrv, recipeDeletedSrv)
     {
+        // get logged in user
+        $scope.user = accountSrv.getUser();
+
+        //$scope.recipeModified = billSrv.isModified();
 
         $scope.currentRecipe = {};
         $scope.id = $routeParams.id;
         if ($scope.id) {
             if ($scope.id == "new") {
                 billSrv.clearBill();
+                $scope.currentRecipe = billSrv.getBill();
             }
             else {
                 var user = accountSrv.getUser();
@@ -29,6 +34,52 @@ angular.module("app")
         }
         else {
             $scope.currentRecipe = billSrv.getBill();
+        }
+
+
+        $scope.saveRecipe = function () {
+            $scope.saveInProgress = true;
+            var recipeData = billSrv.getBill();
+            var recipeName = recipeData.name;
+            recipeListSrv.saveRecipe(recipeData, recipeName, $scope.user, function (errors, recipe) {
+                if (errors) {
+                    $scope.warning = true;
+                    $scope.message = errors;
+                }
+                else {
+                    // save recipe to bill
+                    billSrv.setBill(recipe);
+                    $scope.success = true;
+                    $scope.message = "Your recipe has been saved.";
+                    console.log(recipe);
+                    //$rootScope.$broadcast('recipeSaved');
+                    recipeSavedSrv.broadcast();
+                }
+                $scope.saveInProgress = false;
+            }); 
+        }
+
+
+        $scope.deleteRecipe = function () {
+            $scope.deleteInProgress = true;
+            var recipeData = billSrv.getBill();
+            var recipeName = recipeData.name;
+            recipeListSrv.deleteRecipe(recipeData._id, $scope.user, function (errors, recipe) {
+                if (errors) {
+                    $scope.warning = true;
+                    $scope.message = errors;
+                }
+                else {
+                    billSrv.clearBill();
+                    $scope.success = true;
+                    $scope.message = "Your recipe has been deleted.";
+                    recipeDeletedSrv.broadcast();
+                    $scope.currentRecipe = {};
+                    //redirect to overview page
+                    $location.path("/home");
+                }
+                $scope.deleteInProgress = false;
+            });
         }
 
 

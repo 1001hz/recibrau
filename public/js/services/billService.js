@@ -1,4 +1,4 @@
-app.service('billSrv', function ($rootScope, unitSystemConfig) {
+app.service('billSrv', function ($rootScope, unitSystemConfig, recipeSavedSrv) {
 
     //Defaults
     var defaults = {
@@ -11,6 +11,12 @@ app.service('billSrv', function ($rootScope, unitSystemConfig) {
     }
 
     this.bill = defaults;
+    this.modified = false;
+
+
+    this.isModified = function () {
+        return this.modified;
+    }
 
     this.getBill = function () {
         return this.bill;
@@ -55,6 +61,8 @@ app.service('billSrv', function ($rootScope, unitSystemConfig) {
     this.setSystemBill = function (settings) {
         this.bill.settings = settings;
     }
+
+
 
     /*
     this.commonValues = {

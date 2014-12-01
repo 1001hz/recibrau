@@ -12,22 +12,26 @@
             {{message}}
         </div>
     </div>
-
 </div>
 
+{{recipeModified}}
 
 <div class="row">
     <div class="col-lg-12">
 
-        <form role="form" novalidate name="form_recipeName" ng-submit="saveRecipe()">
+        <form role="form" novalidate name="form_recipeName">
             <fieldset>
                 <div class="form-group">
                     <label>Recipe name</label>
                     <input type="text" class="form-control" required ng-model="currentRecipe.name" name="txt_recipeName" />
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-default" ng-disabled="form_recipeName.txt_recipeName.$error.required">Save Recipe</button>
+                    <button type="submit" class="btn btn-default" ng-click="saveRecipe()" ng-disabled="form_recipeName.txt_recipeName.$error.required">Save Recipe <span class="fa fa-spinner fa-spin" ng-if="saveInProgress==true"></span></button>
                     <span class="text-muted" ng-hide="user.loggedIn">Log in to save recipe.</span>
+                    <button ng-show="user.loggedIn && currentRecipe._id" class="btn btn-danger" ng-click="deleteRecipe()">Delete Recipe <span class="fa fa-spinner fa-spin" ng-if="deleteInProgress==true"></span></button>
+                </div>
+                <div class="form-group" >
+                    
                 </div>
             </fieldset>
         </form>
@@ -49,8 +53,8 @@
                 </thead>
                 <tr ng-repeat="grain in currentRecipe.grains">
                     <td>{{grain.name}}</td> 
-                    <td class="text-muted">{{grain.color}}</td>
-                    <td class="text-muted">{{grain.weight}}{{currentRecipe.settings.unitSystem | unit:'weightLarge'}}</td>
+                    <td class="text-muted">{{grain.colour}} SRM</td>
+                    <td class="text-muted">{{grain.weight}} {{currentRecipe.settings.unitSystem | unit:'weightLarge'}}</td>
                     <td class="text-muted">{{grain.percentOfTotal}}</td>
                 </tr>
             </table>

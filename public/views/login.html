@@ -8,24 +8,35 @@
             <div class="panel-body">
                 <form role="form" id="login" novalidate name="login-form">
                     <div class="form-group">
-                        <label>Username</label>
+                        <label>Email</label>
                         <input type="email" name="email" class="form-control" ng-model="user.username" id="email" />
                     </div>
                     <div class="form-group">
                         <label>Password</label>
                         <input type="password" class="form-control" ng-model="user.password" id="password" />
                     </div>
-                    <div class="form-group">
-                        <button ng-click="loginWithPassword()" class="btn btn-default">Login</button>
+                    <div class="form-group" ng-show="signupFlag">
+                        <label>Confirm password</label>
+                        <input type="password" class="form-control" ng-model="passwordConformation" id="passwordConformation" />
+                    </div>
+                    <div class="form-group" ng-hide="signupFlag">
+                        <button ng-click="loginWithPassword()" class="btn btn-default" ng-disabled="loginInProcess">Login <span class="fa fa-spinner fa-spin" ng-if="loginInProcess==true"></span></button>
                         <input type="checkbox" ng-model="login.keepMeLoggedIn" /><label>Stay logged in</label>
                     </div>
-                    <div ng-if="showError">
-                        <span ng-model="login.loginError">Aww snap! We had a problem logging you in.</span>
+                    <div class="form-group" ng-show="signupFlag">
+                        <button ng-click="createAccount(passwordConformation)" class="btn btn-default" ng-disabled="signupInProcess">Signup</button>
                     </div>
+
+                    <div ng-if="showError" class="alert alert-dismissable alert-danger">
+                        <button type="button" class="close" ng-click="closeNotice()">×</button>
+                        {{login.errorMessage}}
+                    </div>
+
                 </form>
             </div>
             <div class="panel-footer">
-                <a href="#">Sign up</a>
+                <a ng-click="signupFlag=true" ng-hide="signupFlag">Sign up</a>
+                <a ng-click="signupFlag=false" ng-show="signupFlag">Sign in</a>
             </div>
         </div>
         <div class="list-group">
@@ -54,13 +65,13 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Recipes <span class="badge">{{recpeList.length}}</span>
+                    Recipes <span class="badge">{{recpeList.length || 0}}</span>
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item" ng-repeat="recipe in recpeList">
-                        <a href="#/home/{{recipe.id}}">
+                        <a href="#/home/{{recipe._id}}">
                             {{recipe.name}}
-                            <span class="pull-right text-muted small">{{recipe.updated}}</span>
+                            <span class="pull-right text-muted small">{{recipe.updated | formatTime}}</span>
                         </a>
                     </li>
                 </ul>

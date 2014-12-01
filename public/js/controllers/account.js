@@ -1,5 +1,5 @@
 angular.module("app")
-    .controller("accountCtrl", function ($scope, $location, accountSrv, recipeListSrv)
+    .controller("accountCtrl", function ($rootScope, $scope, $location, accountSrv, recipeListSrv, recipeSavedSrv, recipeDeletedSrv)
     {
         //checkbox in login panel
         $scope.login = {
@@ -20,18 +20,45 @@ angular.module("app")
             loginWithToken(usernameTokenPair);
         }
 
-        
+        /*
+        $rootScope.$on('recipeSaved', function () {
+            // update recipe list
+            recipeListSrv.syncRecipes($scope.user, function (errors, recipes) {
+                $scope.recpeList = recipes;
+            });
+        });
+        */
+        recipeSavedSrv.listen(function () {
+            recipeListSrv.syncRecipes($scope.user, function (errors, recipes) {
+                $scope.recpeList = recipes;
+            });
+        });
+
+        recipeDeletedSrv.listen(function () {
+            recipeListSrv.syncRecipes($scope.user, function (errors, recipes) {
+                $scope.recpeList = recipes;
+            });
+        });
+
+        /*
+        $rootScope.$on('recipeDeleted', function () {
+            // update recipe list
+            recipeListSrv.syncRecipes($scope.user, function (errors, recipes) {
+                $scope.recpeList = recipes;
+            });
+        });
+        */
 
         function loginWithToken(usernameTokenPair) {
             var parts = usernameTokenPair.split('|');
             var username = parts[0];
             var token = parts[1];
 
-            accountSrv.loginWithToken(username, token, function (boolStatus, strMessage, objUser) {
-                if (boolStatus) {
+            accountSrv.loginWithToken(username, token, function (errors, objUser) {
+                if (!errors) {
                     $scope.user = objUser;
                     //load recipes into recipes service
-                    recipeListSrv.syncRecipes(objUser, function (recipes) {
+                    recipeListSrv.syncRecipes(objUser, function (errors, recipes) {
                         $scope.recpeList = recipes;
                     });
                     //redirect to overview page
@@ -42,24 +69,26 @@ angular.module("app")
 
 
         $scope.loginWithPassword = function () {
-            accountSrv.login($scope.user.username, $scope.user.password, function (boolStatus, strMessage, objUser) {
-                if (boolStatus) {
+            $scope.loginInProcess = true;
+            accountSrv.login($scope.user.username, $scope.user.password, function (errors, objUser) {
+                if (!errors) {
                     $scope.user = objUser;
                     //set reminder cookie if needed
                     if ($scope.login.keepMeLoggedIn) {
                         setCookie("usernameTokenPair", objUser.username + "|" + objUser.token, 1);
                     }
                     //load recipes into recipes service
-                    recipeListSrv.syncRecipes(objUser, function (recipes) {
+                    recipeListSrv.syncRecipes(objUser, function (errors, recipes) {
                         $scope.recpeList = recipes;
                     });
                     //redirect to overview page
                     $location.path("/home");
                 }
                 else {
-                    $scope.login.loginError = strMessage;
-                    $scope.login.showError = true;
+                    $scope.login.errorMessage = errors;
+                    $scope.showError = true;
                 }
+                $scope.loginInProcess = false;
             });
         }
 
@@ -94,6 +123,39 @@ angular.module("app")
                 }
 
             });
+        }
+
+
+
+        $scope.createAccount = function (passwordConformation) {
+            $scope.signupInProcess = true;
+            if ($scope.user.password == passwordConformation) {
+                accountSrv.createAccount($scope.user.username, $scope.user.password, function (response) {
+                    if (response.hasOwnProperty('errors')) {
+                        $scope.showError = true;
+                        $scope.login.errorMessage = response.errors;
+                    }
+                    else {
+                        $scope.user = response;
+                        //load recipes into recipes service
+                        recipeListSrv.syncRecipes($scope.user, function (recipes) {
+                            $scope.recpeList = recipes;
+                        });
+                        //redirect to overview page
+                        $location.path("/home");
+                    }
+                });
+            }
+            else {
+                $scope.showError = true;
+                $scope.login.errorMessage = "Passwords don't match";
+            }
+            $scope.signupInProcess = false;
+        }
+
+
+        $scope.closeNotice = function () {
+            $scope.showError = false;
         }
 
         

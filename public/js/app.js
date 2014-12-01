@@ -36,6 +36,10 @@ app.config(['$routeProvider',
                     templateUrl: 'views/primer.html',
                     controller: 'primerCtrl'
                 }).
+                when('/admin/grain', {
+                    templateUrl: 'views/admin/grain.html',
+                    controller: 'adminGrainCtrl'
+                }).
                 otherwise({
                     redirectTo: '/home'
                 });

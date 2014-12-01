@@ -62,6 +62,32 @@
         #side-menu a{
             color:#333;
         }
+
+        /* Spinning loader */
+ .fa-spin-custom, .glyphicon-spin {
+    -webkit-animation: spin 1200ms infinite linear;
+    animation: spin 1200ms infinite linear;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
     </style>
 </head>
 <body>
@@ -199,13 +225,15 @@
     <script src="js/controllers/primer.js"></script>
     <script src="js/controllers/account.js"></script>
     <script src="js/controllers/system.js"></script>
+    <script src="js/controllers/adminGrain.js"></script>
 
     <script src="js/services/dataService.js"></script>
     <script src="js/services/billService.js"></script>
     <script src="js/services/accountService.js"></script>
     <script src="js/services/recipeService.js"></script>
     <script src="js/services/configService.js"></script>
-
+    <script src="js/services/adminDataService.js"></script>
+    <script src="js/services/customEventService.js"></script>
 
     <!-- jQuery Version 1.11.0 -->
     <script src="js/vendor/jquery-1.11.0.js"></script>

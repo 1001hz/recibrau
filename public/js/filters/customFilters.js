@@ -28,6 +28,30 @@ angular.module("customFilters", [])
                 return "?";
             }
         }
+    })
+    .filter("formatTime", function () {
+        return function (unix_timestamp) {
+            if (unix_timestamp) {
+                try{
+                    var a = new Date(parseInt(unix_timestamp, 10)); //in ms
+                    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    var year = a.getFullYear();
+                    var month = months[a.getMonth()];
+                    var date = a.getDate();
+                    var hour = a.getHours();
+                    var min = a.getMinutes();
+                    var sec = a.getSeconds();
+                    
+                    return date + ',' + month + ' ' + year;
+                }
+                catch (e) {
+                    return "";
+                }
+            }
+            else {
+                return unix_timestamp;
+            }
+        }
     });
 /*
 angular.module("customFilters", [])

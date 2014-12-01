@@ -1,0 +1,101 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Add Grains</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row" ng-if="success || error">
+    <div class="col-lg-12">
+        <div class="alert alert-dismissable" ng-class="{'alert-success': success==true, 'alert-warning': error==true}">
+            <button type="button" class="close" ng-click="closeNotice()">×</button>
+            <span ng-if="success">
+                {{message}}
+            </span>
+            <ul ng-if="error">
+                <li ng-repeat="item in message.errors">
+                    {{item.message}}
+                </li>
+            </ul>
+            
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <div class="input-group">
+                <label>Name</label>
+                <input class="form-control" type="text" ng-model="grain.name" />
+            </div>
+            <div class="input-group">
+                <label>Extract Potential</label>
+                <input class="form-control" type="text" ng-model="grain.extractPotential" />
+            </div>
+            <div class="input-group">
+                <label>Colour</label>
+                <input class="form-control" type="text" ng-model="grain.colour" />
+            </div>
+            <div class="input-group">
+                <label>Max Yield</label>
+                <input class="form-control" type="text" ng-model="grain.maxYield" />
+            </div>
+            <button class="btn btn-primary" ng-click="saveGrain()">Save</button>
+            <div>
+                {{response}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <table class="table">
+                <tr>
+                    <th>
+                        Delete
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Colour
+                    </th>
+                    <th>
+                        Extract Potential
+                    </th>
+                    <th>
+                        Max Yield
+                    </th>
+                    <th>
+                        ID
+                    </th>
+                </tr>
+                <tr ng-repeat="grain in allGrains">
+                    <td ng-click="deleteGrain(grain._id)">
+                        <i class="fa fa-minus-circle fa-fw"></i>
+                    </td>
+                    <td>
+                        {{grain.name}}
+                    </td>
+                    <td>
+                        {{grain.colour}}
+                    </td>
+                    <td>
+                        {{grain.extractPotential}}
+                    </td>
+                    <td>
+                        {{grain.maxYield}}
+                    </td>
+                    <td>
+                        {{grain._id}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

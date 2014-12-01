@@ -24,7 +24,7 @@
                         <tr ng-repeat="grain in grainBill" class="animate-repeat">
                             <td ng-click="removeGrain(grain)"><i class="fa fa-minus-circle fa-fw"></i></td>
                             <td>{{grain.name}}</td>
-                            <td>{{grain.extractPotential}}%</td>
+                            <td>{{grain.potential}}%</td>
                             <td><span class="_{{grain.colour}} badge">{{grain.colour}}</span></td>
                             
                             <td>
@@ -76,7 +76,7 @@
                                         <div class="small badge _{{grain.colour}}">{{grain.colour}}</div>
                                     </div>
                                     <div class="col-xs-6 text-right">
-                                        <div class="text-muted small">{{grain.extractPotential}}</div>
+                                        <div class="text-muted small">{{grain.potential}}</div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -89,18 +89,13 @@
                                         <div class="small"></div>
                                     </div>
                                     <div class="col-xs-6 text-right">
-                                        <div class="text-muted small">{{grain.maxYield}}% <!--{{grain.weight | number : fractionSize}} {{commonValues.unitSystem.weightLarge}}--></div>
+                                        <div class="text-muted small">{{grain.dryYield}}%</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--
-                        <div ng-repeat="grain in grains">
-                            {{grain.name}} - {{grain.srm}}
-                            <button ng-if="alreadyInGrainBill(grain.id)" ng-click="addGrain(grain)">Add</button>
-                        </div>
-                -->
+
                 </div>
                 
             </div>

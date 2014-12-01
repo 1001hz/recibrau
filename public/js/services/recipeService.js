@@ -18,8 +18,77 @@ app.service('recipeListSrv', function ($http) {
         recipes = {};
     }
 
+
+    this.saveRecipe = function (recipeData, recipeName, user, callbackFunc) {
+        //get recipes from DB, server takes care of validating user agains data
+        $http.post("/api/user/recipe/save",
+                { "recipeData": recipeData, "recipeName": recipeName, "username": user.username, "token": user.token }
+            )
+            .success(function (response) {
+                if (response.hasOwnProperty('errors')) {
+                    callbackFunc(response.errors, null);
+                }
+                else {
+                    callbackFunc(null, response.recipe);
+                }
+
+            })
+            .error(function (data, status, headers, config) {
+                if (data === "") {
+                    data = "Error connecting to server.";
+                }
+                callbackFunc(data, null);
+            });
+    }
+
+
+
+    this.deleteRecipe = function (recipeId, user, callbackFunc) {
+        //get recipes from DB, server takes care of validating user agains data
+        $http.post("/api/user/recipe/delete",
+                { "recipeId": recipeId, "username": user.username, "token": user.token }
+            )
+            .success(function (response) {
+                if (response.hasOwnProperty('errors')) {
+                    callbackFunc(response.errors, null);
+                }
+                else {
+                    callbackFunc(null, response.success);
+                }
+
+            })
+            .error(function (data, status, headers, config) {
+                if (data === "") {
+                    data = "Error connecting to server.";
+                }
+                callbackFunc(data, null);
+            });
+    }
+
+
+
     this.syncRecipes = function (user, callbackFunc) {
         //get recipes from DB, server takes care of validating user agains data
+        $http.post("/api/user/recipes",
+                { "token": user.token, "username": user.username }
+            )
+            .success(function (response) {
+                if (response.hasOwnProperty('errors')) {
+                    callbackFunc(response.errors, null);
+                }
+                else {
+                    recipes = response.recipes;
+                    callbackFunc(null, response.recipes);
+                }
+
+            })
+            .error(function (data, status, headers, config) {
+                if (data === "") {
+                    data = "Error connecting to server.";
+                }
+                callbackFunc(data, null);
+            });
+        /*
         recipes = [{
             name: "You're my boy brew, you're my boy",
             id: 1,
@@ -111,6 +180,7 @@ app.service('recipeListSrv', function ($http) {
                 }
         }];
         callbackFunc(recipes);
+        */
     }
 
     this.getRecipe = function (user, id, callbackFunc) {
@@ -118,7 +188,7 @@ app.service('recipeListSrv', function ($http) {
         var recipe = {};
        
         for (i = 0; i < recipes.length; i++) {
-            if (recipes[i].id == id) {
+            if (recipes[i]._id == id) {
                 recipe = recipes[i];
             }
         }

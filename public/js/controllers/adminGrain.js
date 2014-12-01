@@ -1,6 +1,62 @@
 angular.module("app")
-    .controller("grainCtrl", function ($scope, $filter, billSrv, dataSrv, unitSystemConfig)
+    .controller("adminGrainCtrl", function ($scope, adminDataSrv, dataSrv)
     {
+        $scope.grain = {};
+        //$scope.response = {};
+
+        $scope.saveGrain = function () {
+            adminDataSrv.saveGrain($scope.grain, function (response) {
+                if (response.hasOwnProperty("errors")) {
+                    $scope.error = true;
+                    $scope.message = response;
+                }
+                else {
+                    $scope.success = true;
+                    $scope.message = response.message;
+                }
+                syncGrains();
+            });
+        };
+
+        syncGrains();
+
+        $scope.deleteGrain = function (grainId) {
+            adminDataSrv.deleteGrain(grainId, function (response) {
+                if (response.hasOwnProperty("errors")) {
+                    $scope.error = true;
+                    $scope.message = response;
+                }
+                else {
+                    $scope.success = true;
+                    $scope.message = response.message;
+                }
+                syncGrains();
+            });
+        };
+
+        $scope.closeNotice = function () {
+            $scope.success = false;
+            $scope.error = false;
+            $scope.message = "";
+        };
+        
+        function syncGrains() {
+            dataSrv.getGrains(function (data) {
+                $scope.allGrains = data;
+            });
+        }
+
+        function extractMongooseErrors(response) {
+            var str = "<ul>";
+            angular.forEach(response.errors, function (value, key) {
+                str += "<li>"+key + " - " + value.message + "</li>";
+            });
+            return str + "</ul>";
+        }
+
+        /*
+
+
         //get system grains
         $scope.grains = [];
         dataSrv.getGrains(function (grains) {
@@ -29,7 +85,7 @@ angular.module("app")
         $scope.isInList = function (grain) {
             var found = false;
             for(i=0;i<$scope.grainBill.length;i++){
-                if (grain._id === $scope.grainBill[i]._id) {
+                if (grain.id === $scope.grainBill[i].id) {
                     found = true;
                     break;
                 }
@@ -41,7 +97,7 @@ angular.module("app")
         function removeFromGrainBill(grain) {
             var updatedGrainBill = [];
             for (i = 0; i < $scope.grainBill.length; i++) {
-                if (grain._id !== $scope.grainBill[i]._id) {
+                if (grain.id !== $scope.grainBill[i].id) {
                     updatedGrainBill.push($scope.grainBill[i]);
                 }
             }
@@ -56,6 +112,10 @@ angular.module("app")
                 $scope.grains = $filter('orderBy')($scope.grains, 'name');
             }
         }
+
+        */
+
+
 
         /*
         //holds all grains from DB

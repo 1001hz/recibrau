@@ -15,33 +15,62 @@ app.service('accountSrv', function ($http) {
 
     //v2
     this.loginWithToken = function (username, token, callbackFunc) {
-        /*
-        $http.post("http://localhost/angularjs/brewsmith/data/loginWithToken.php",
+        
+        $http.post("/api/user/tokenlogin",
                 { "token": token, "username": username }
             )
             .success(function (response) {
-                if (response.result) {
-                    user.loggedIn = true;
-                    user.token = response.token;
-                    user.username = username;
-                    callbackFunc(true, response.message, user);
+                if (response.hasOwnProperty('errors')) {
+                    callbackFunc(response.errors, null);
                 }
                 else {
-                    callbackFunc(false, response.message, null);
+                    user.loggedIn = true;
+                    user.token = token;
+                    user.username = username;
+                    callbackFunc(null, user);
                 }
 
             })
-            .error(function (error) {
-                callbackFunc(false, error, null);
+            .error(function (data, status, headers, config) {
+                if (data === "") {
+                    data = "Error connecting to server.";
+                }
+                callbackFunc(data, null);
             });
-            */
-        //DEBUG
-        user.loggedIn = true;
-        user.token = token;
-        user.username = username;
-        callbackFunc(true, "login ok", user);
     }
 
+
+    this.login = function (username, password, callbackFunc) {
+        
+        $http.post("/api/user/login",
+                { "password": password, "username": username }
+            )
+            .success(function (response) {
+                if (response.hasOwnProperty('errors')) {
+                    callbackFunc(response.errors, null);
+                }
+                else {
+                    user.loggedIn = true;
+                    user.token = response.token;
+                    user.username = username;
+                    callbackFunc(null, user);
+                }
+
+            })
+            .error(function (data, status, headers, config) {
+                if (data === "") {
+                    data = "Error connecting to server.";
+                }
+                callbackFunc(data, null);
+            });
+            /*
+        //DEBUG
+        user.loggedIn = true;
+        user.token = "abcdefg"+password;
+        user.username = username;
+        callbackFunc(true, "login ok", user);
+        */
+    }
 
 
 
@@ -52,32 +81,28 @@ app.service('accountSrv', function ($http) {
         user.password = "";
     }
 
-    this.login = function (username, password, callbackFunc) {
-        /*
-        $http.post("http://localhost/angularjs/brewsmith/data/login.php",
-                { "password": password, "username": username }
+
+    this.createAccount = function (username, password, callbackFunc) {
+        $http.post("/api/user/create",
+                { "username": username, "password": password }
             )
             .success(function (response) {
-                if (response.result) {
+                if (response.hasOwnProperty('errors')) {
+                    callbackFunc(response);
+                }
+                else {
                     user.loggedIn = true;
                     user.token = response.token;
                     user.username = username;
-                    callbackFunc(true, response.message, user);
+                    callbackFunc(user);
                 }
-                else {
-                    callbackFunc(false, response.message, null);
-                }
-
             })
-            .error(function (error) {
-                callbackFunc(false, error, null);
+            .error(function (data, status, headers, config) {
+                if (data === "") {
+                    data = "Error connecting to server.";
+                }
+                callbackFunc(data, null);
             });
-            */
-        //DEBUG
-        user.loggedIn = true;
-        user.token = "abcdefg"+password;
-        user.username = username;
-        callbackFunc(true, "login ok", user);
     }
 
 });
